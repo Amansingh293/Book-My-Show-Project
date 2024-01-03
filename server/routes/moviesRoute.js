@@ -69,7 +69,7 @@ router.get("/get-all-movies", authMiddleware, async (_, response) => {
 router.get("/get-movie-by-id", authMiddleware, async (request , response) => {
   try {
     const movie = await Movie.findById({_id : request.query.movieId});
-    
+  
     response.status(200).send({
       success: true,
       message: "Movie Retrieved",
