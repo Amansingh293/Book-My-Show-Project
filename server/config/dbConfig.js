@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 async function main() {
-  await mongoose.connect("mongodb+srv://bookmyshowapp:0nw8SeQVlMDmeMqV@bookmyshow.erbayz9.mongodb.net/test?retryWrites=true&w=majority");
+  await mongoose.connect(process.env.mongodb_url);
 }
 
 main().catch(err => console.log(err));
