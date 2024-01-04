@@ -26,12 +26,13 @@ app.use("/api/show", showRoute);
 app.use("/api/bookings", bookingRoute);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve("../client/build")));
+  app.use(express.static(path.resolve("./client/build")));
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve("../client/build"));
+    res.sendFile(path.resolve("./client/build"));
   });
 }
  
+
 app.listen(3001, () => {
   console.log("server live on 3001 port");
 });
