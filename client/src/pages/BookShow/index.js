@@ -90,7 +90,7 @@ const BookShow = () => {
     const rows = Math.ceil(totalSeats / columns); // 10
 
     return (
-      <div>
+      <div className="overflow-auto">
         <div className="line"></div>
         <p className="screen">Screen This Side</p>
         <hr />
@@ -115,7 +115,10 @@ const BookShow = () => {
                     seatNumber <= totalSeats && (
                       <div
                         className={seatClass}
-                        onClick={() => {
+                        onClick={(e) => {
+                          if (e.target.classList.contains("booked-seat")) {
+                            return;
+                          }
                           if (selectedSeats.includes(seatNumber)) {
                             setSelectedSeats(
                               selectedSeats.filter(
@@ -125,7 +128,6 @@ const BookShow = () => {
                           } else {
                             setSelectedSeats([...selectedSeats, seatNumber]);
                           }
-                          console.log(seatClass);
                         }}
                       >
                         <h1 className="text-sm">{seatNumber}</h1>
@@ -144,7 +146,7 @@ const BookShow = () => {
     <>
       {show && (
         <>
-          <div className="flex flex-row justify-evenly items-center h-[8em] w-[47rem] md:w-[98vw] p-6 gap-8 border m-4 box-border rounded-lg overflow-x-auto">
+          <div className="flex flex-row justify-evenly items-center h-[8em] w-[47rem] md:w-[98vw] p-6 gap-8 border m-4 box-border rounded-lg">
             <div className="flex flex-col justify-evenly items-start w-full gap-5">
               <h1 className="font-medium text-xl"> {show?.theatre?.name}</h1>
               <h1 className="font- text-lg"> {show?.theatre?.address}</h1>
@@ -154,7 +156,8 @@ const BookShow = () => {
             </div>
             <div className="flex flex-col justify-evenly items-end gap-7 w-full font-semibold text-lg">
               <span>
-                {moment(show.date).format("DD-MM-YYYY")} __ {moment(show.time).format("HH:MM")}{" "}
+                {moment(show.date).format("DD-MM-YYYY")} __{" "}
+                {moment(show.time).format("HH:MM")}{" "}
                 {+moment(show.time).format("HH:MM").slice(0, 2) < 13
                   ? "AM"
                   : "PM"}
@@ -175,7 +178,7 @@ const BookShow = () => {
             </div>
           </div>
 
-          <div className="flex justify-center items-center w-[50rem] md:w-full h-fit  md:h-fit overflow-auto p-8 mt-[8rem] md:mt-0 ">
+          <div className="flex justify-center items-center w-[50rem] md:w-full h-fit  md:h-fit  p-8 mt-[8rem] md:mt-0 ">
             {getSeats()}
           </div>
 
