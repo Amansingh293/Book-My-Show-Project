@@ -35,4 +35,3 @@ if (process.env.NODE_ENV === "production") {
 app.listen(3001, () => {
   console.log("server live on 3001 port");
 });
-console.log(path.join(__dirname, "../client", "build", "index.html"));
