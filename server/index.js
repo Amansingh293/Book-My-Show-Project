@@ -17,7 +17,11 @@ const showRoute = require("./routes/showsRoute");
 const bookingRoute = require("./routes/bookingRoutes");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: ['https://book-my-show-project-frontend.vercel.app'],
+  methods: ["POST" , "GET"],
+  credentials: true
+}));
 
 app.use("/api/user", userRoute);
 app.use("/api/theatre", theatreRoute);
