@@ -24,6 +24,7 @@ const TheatresForMovie = () => {
   const handleGetShows = async () => {
     dispatch(ShowLoading());
     try {
+      console.log(moment(query).format("yyyy-mm-dd"));
 
       const response = await getShowsByMovieId({
         movie: params.id,
