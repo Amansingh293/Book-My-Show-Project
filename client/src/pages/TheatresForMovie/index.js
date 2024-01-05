@@ -54,7 +54,6 @@ const TheatresForMovie = () => {
     dispatch(ShowLoading());
     try {
       const response = await getMovieById(params.id);
-      console.log(response.data.name);
       if (response.success) {
         setMovie(response.data);
       } else {
