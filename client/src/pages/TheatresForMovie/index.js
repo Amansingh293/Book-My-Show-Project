@@ -10,24 +10,24 @@ import { useDispatch } from "react-redux";
 const TheatresForMovie = () => {
   const params = useParams();
   const param = new URLSearchParams(window.location.search);
-  const query = param.get('date');
-  // console.log(useSearchParams.get("date"))
+  const [dateQuery , setdateQuery] = (param.get('date'));
+  
   const [theatres, setTheatres] = useState([]);
 
   const dispatch = useDispatch();
 
   const [movie, setMovie] = useState({});
 
-  const [date, setDate] = useState(null);
 
   const navigate = useNavigate();
 
   const handleGetShows = async () => {
     dispatch(ShowLoading());
     try {
+
       const response = await getShowsByMovieId({
         movie: params.id,
-        date: query,
+        date: dateQuery,
       });
       if (response.success) {
         setTheatres(response.data);
@@ -46,7 +46,6 @@ const TheatresForMovie = () => {
     
     let dateObj = moment(dateStr?.$d);
     const formattedDate = moment(dateObj.format("YYYY-MM-DD"));
-    setDate(formattedDate);
     navigate(`/movie/${movie._id}?date=${formattedDate}`);
   };
 
@@ -74,7 +73,7 @@ const TheatresForMovie = () => {
 
   useEffect(() => {
     handleGetShows();
-  }, [date]);
+  }, [query]);
 
   return (
     <>
@@ -112,6 +111,7 @@ const TheatresForMovie = () => {
                   current && current < moment().startOf("day")
                 }
                 onChange={(data) => {
+                  setdateQuery(param.get('date'));
                   dateHandler(data);
                 }}
               />
