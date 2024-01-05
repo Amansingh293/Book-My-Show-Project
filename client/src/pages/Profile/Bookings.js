@@ -4,7 +4,6 @@ import { GetBookingsOfUser } from "../../services/apicalls/booking";
 import { Col, Row, message } from "antd";
 import { HideLoading, ShowLoading } from "../../redux/loadersSlice";
 import { Space, Table, Tag } from "antd";
-import moment from "moment";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);

@@ -116,17 +116,16 @@ const BookShow = () => {
                       <div
                         className={seatClass}
                         onClick={(e) => {
-                          if (e.target.classList.contains("booked-seat")) {
-                            return;
-                          }
-                          if (selectedSeats.includes(seatNumber)) {
-                            setSelectedSeats(
-                              selectedSeats.filter(
-                                (item) => item !== seatNumber
-                              )
-                            );
-                          } else {
-                            setSelectedSeats([...selectedSeats, seatNumber]);
+                          if (!e.target.classList.contains("booked-seat")) {
+                            if (selectedSeats.includes(seatNumber)) {
+                              setSelectedSeats(
+                                selectedSeats.filter(
+                                  (item) => item !== seatNumber
+                                )
+                              );
+                            } else {
+                              setSelectedSeats([...selectedSeats, seatNumber]);
+                            }
                           }
                         }}
                       >

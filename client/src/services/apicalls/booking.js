@@ -21,10 +21,9 @@ export const BookShowTickets = async (payload) => {
   }
 };
 
-export const GetBookingsOfUser = async (payload) => {
+export const GetBookingsOfUser = async () => {
   try {
-    console.log(payload);
-    const response = await instance.get(`/api/bookings/get-bookings?id=${payload}`);
+    const response = await instance.get(`/api/bookings/get-bookings`);
     return response.data;
   } catch (error) {
     return error.response.data;

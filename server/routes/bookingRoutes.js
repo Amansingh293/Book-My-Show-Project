@@ -31,7 +31,7 @@ router.post("/make-payment", authMiddleware, async (request, response) => {
 
 router.post("/book-show", authMiddleware, async (request, response) => {
   try {
-    const book = new Booking(request.body);
+    const book = new Booking({...request.body , user : request.body.id});
     await book.save();
 
     const show = await Show.findById(request.body.show);
@@ -53,7 +53,7 @@ router.post("/book-show", authMiddleware, async (request, response) => {
 
 router.get("/get-bookings", authMiddleware, async (request, response) => {
   try {
-    console.log(request.body.id);
+   
     const bookings = await Booking.find({ user: request.body.id })
     .populate("show")
     .populate({
@@ -71,6 +71,7 @@ router.get("/get-bookings", authMiddleware, async (request, response) => {
         model: "theatres",
       },
     });
+    console.log(bookings);
     response
       .status(201)
       .send({ success: true, message: "Show Booked", data: bookings });
