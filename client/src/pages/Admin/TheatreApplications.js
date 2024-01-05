@@ -8,6 +8,7 @@ import {
 import { FaCheck, FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import { HideLoading, ShowLoading } from "../../redux/loadersSlice";
 import { ImBlocked } from "react-icons/im";
+import { useDispatch } from "react-redux";
 // import { useSelector } from "react-redux";
 
 const TheatreApplications = () => {
@@ -17,8 +18,10 @@ const TheatreApplications = () => {
 
   const [fetchTrigger, setFetchTrigger] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleStatus = async (payload, checkBlocked) => {
-    ShowLoading();
+    dispatch(ShowLoading());
     try {
       if (!checkBlocked) {
         let currentIsActive = payload.isActive;
@@ -35,12 +38,12 @@ const TheatreApplications = () => {
     } catch (error) {
       console.log(error.message);
     }
-    HideLoading();
+    dispatch(HideLoading());
     setFetchTrigger(!fetchTrigger);
   };
 
   const handelDeleteTheatre = async (payload) => {
-    ShowLoading();
+      dispatch(ShowLoading());
     try {
       const response = await deleteTheatre(payload);
 
@@ -49,17 +52,15 @@ const TheatreApplications = () => {
       } else {
         message.error(response.message);
       }
-
-      HideLoading();
     } catch (error) {
       message.error(error.message);
-      HideLoading();
     }
+    dispatch(HideLoading());
     setFetchTrigger(!fetchTrigger);
   };
 
   const getTheatres = async () => {
-    ShowLoading();
+    dispatch(ShowLoading());
     try {
       const response = await getAllTheatres();
 
@@ -72,7 +73,7 @@ const TheatreApplications = () => {
     } catch (err) {
       console.log(err.message);
     }
-    HideLoading();
+    dispatch(HideLoading());
   };
 
   useEffect(() => {

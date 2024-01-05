@@ -17,6 +17,7 @@ import {
 } from "../../services/apicalls/movie";
 import { FaTrash } from "react-icons/fa";
 import { HideLoading, ShowLoading } from "../../redux/loadersSlice";
+import { useDispatch } from "react-redux";
 
 const MovieForm = ({
   formType,
@@ -27,8 +28,11 @@ const MovieForm = ({
   setTriggerRender,
   triggerRender,
 }) => {
+
+  const dispatch = useDispatch();
+
   const handleAddMovie = async (payload) => {
-    ShowLoading();
+    dispatch(ShowLoading());
     try {
       const response = await addMovie(payload);
 
@@ -37,18 +41,17 @@ const MovieForm = ({
       } else {
         message.error(response.message);
       }
-      HideLoading();
     } catch (error) {
       console.log(error.message);
       message.error(error.message);
     }
-    HideLoading();
     setTriggerRender(!triggerRender);
     setShowFormModal(!showFormModal);
+    dispatch(ShowLoading());
   };
 
   const handleEditMovie = async (payload) => {
-    ShowLoading();
+    dispatch(ShowLoading());
     try {
       payload = { ...payload, _id: editMovieData._id };
       const response = await editMovie(payload);
@@ -61,12 +64,13 @@ const MovieForm = ({
     } catch (error) {
       message.error(error.message);
     }
-    HideLoading();
+    dispatch(HideLoading());
     setShowFormModal(!showFormModal);
     setTriggerRender(!triggerRender);
   };
 
   const handelDeleteMovie = async (payload) => {
+    dispatch(ShowLoading());
     try {
       const response = await deleteMovie(payload);
 
@@ -78,7 +82,7 @@ const MovieForm = ({
     } catch (error) {
       message.error(error.message);
     }
-    HideLoading();
+    dispatch(HideLoading());
     setTriggerRender(!triggerRender);
     setShowFormModal(!showFormModal);
   };
