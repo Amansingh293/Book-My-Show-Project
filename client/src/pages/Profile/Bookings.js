@@ -26,7 +26,6 @@ const Bookings = () => {
     dispatch(HideLoading());
   };
 
-  console.log(bookings);
 
   const columns = [
     {
@@ -89,7 +88,7 @@ const Bookings = () => {
         <Table
           columns={columns}
           dataSource={bookings}
-          className="font-semibold"
+          className="font-semibold overflow-auto text-lg"
         />
       )}
     </>
