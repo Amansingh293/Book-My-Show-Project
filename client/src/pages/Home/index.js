@@ -4,6 +4,7 @@ import { Card, message } from "antd";
 import { HideLoading, ShowLoading } from "../../redux/loadersSlice";
 import Meta from "antd/es/card/Meta";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
 
@@ -11,8 +12,10 @@ const Home = () => {
 
   const [movies, setMovies] = useState([]);
 
+  const dispatch = useDispatch();
+  
   const getMovies = async () => {
-    ShowLoading();
+    dispatch(ShowLoading());
     try {
       const response = await getAllMovies();
 
@@ -25,7 +28,7 @@ const Home = () => {
       console.timeLog(error.message);
     }
 
-    HideLoading();
+    dispatch(HideLoading());
   };
 
   useEffect(() => {

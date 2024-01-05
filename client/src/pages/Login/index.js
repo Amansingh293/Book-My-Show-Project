@@ -4,11 +4,15 @@ import { Button, Checkbox, Form, Input, message } from "antd";
 import { loginUser } from "../../services/apicalls/user";
 
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { ShowLoading } from "../../redux/loadersSlice";
 
 const Login = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  
   const onFinish = async (values) => {
+    dispatch(ShowLoading());
     try {
       const response = await loginUser(values);
       console.log(values)
@@ -23,6 +27,7 @@ const Login = () => {
     } catch (err) {
       message.error(err.message);
     }
+    dispatch(HideLoading());
   };
 
   return (

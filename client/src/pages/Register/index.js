@@ -3,11 +3,16 @@ import { Button, Checkbox, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../services/apicalls/user";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { HideLoading, ShowLoading } from "../../redux/loadersSlice";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const onFinish = async (values) => {
+    dispatch(ShowLoading());
     try {
       const response = await registerUser(values);
 
@@ -21,12 +26,9 @@ const Register = () => {
       message.error(err.message);
       console.log(err.message);
     }
+    dispatch(HideLoading());
   };
-  const onFinishFailed = (errorInfo) => {
-    const errMessage =
-      errorInfo.errorFields[0].errors[0] || "Internal Server Error";
-    message.error(errMessage);
-  };
+
 
   return (
     <div className="flex justify-center items-center w-full h-full">
