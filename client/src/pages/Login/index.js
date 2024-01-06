@@ -5,7 +5,7 @@ import { loginUser } from "../../services/apicalls/user";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ShowLoading } from "../../redux/loadersSlice";
+import { HideLoading, ShowLoading } from "../../redux/loadersSlice";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,10 +22,11 @@ const Login = () => {
         message.success(response.message);
         navigate("/");
       } else {
-        message.error(response.message);
+        // message.error(response.message);
       }
     } catch (err) {
-      message.error(err.message);
+    console.log(err.message);
+      // message.error(err.message);
     }
     dispatch(HideLoading());
   };

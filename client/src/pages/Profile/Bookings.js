@@ -26,6 +26,7 @@ const Bookings = () => {
     dispatch(HideLoading());
   };
 
+  console.log(bookings);
 
   const columns = [
     {

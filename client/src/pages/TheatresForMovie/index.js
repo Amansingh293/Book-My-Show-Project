@@ -9,45 +9,38 @@ import { useDispatch } from "react-redux";
 
 const TheatresForMovie = () => {
   const params = useParams();
-  const param = new URLSearchParams(window.location.search);
-  const [dateQuery , setdateQuery] = (param.get('date'));
-  
+  // console.log(params);
+
+  const queryDate = new URLSearchParams(window.location.search).get("date");
+  const [date, setDate] = useState(queryDate || moment().format("YYYY-MM-DD"));
   const [theatres, setTheatres] = useState([]);
 
   const dispatch = useDispatch();
 
   const [movie, setMovie] = useState({});
 
-
   const navigate = useNavigate();
 
   const handleGetShows = async () => {
     dispatch(ShowLoading());
     try {
-      console.log(moment(query).format("yyyy-mm-dd"));
-
+      console.log(date);
       const response = await getShowsByMovieId({
         movie: params.id,
-        date: dateQuery,
+        date: date,
       });
       if (response.success) {
         setTheatres(response.data);
+        console.log(theatres);
       } else {
         message.error(response.message);
         setTheatres([]);
       }
     } catch (error) {
       console.log(error.message);
+      setTheatres([]);
     }
-
     dispatch(HideLoading());
-  };
-
-  const dateHandler = (dateStr) => {
-    
-    let dateObj = moment(dateStr?.$d);
-    const formattedDate = moment(dateObj.format("YYYY-MM-DD"));
-    navigate(`/movie/${movie._id}?date=${formattedDate}`);
   };
 
   const handleGetMovieById = async () => {
@@ -65,15 +58,13 @@ const TheatresForMovie = () => {
     dispatch(HideLoading());
   };
 
-  console.log(theatres);
-
   useEffect(() => {
     handleGetMovieById();
   }, []);
 
   useEffect(() => {
     handleGetShows();
-  }, [query]);
+  }, [date]);
 
   return (
     <>
@@ -105,14 +96,16 @@ const TheatresForMovie = () => {
               </h2>
             </div>
             <div className="flex justify-start md:justify-end items-center md:w-[20%] h-full">
-              <DatePicker
-                className=" text-xl h-[3.5rem] w-[12rem] "
-                disabledDate={(current) =>
-                  current && current < moment().startOf("day")
-                }
-                onChange={(data) => {
-                  setdateQuery(param.get('date'));
-                  dateHandler(data);
+              <input
+                type="date"
+                min={moment().format("YYYY-MM-DD")}
+                className=" text-lg h-[3.5rem] w-[12rem] border rounded-xl p-4 "
+                value={date}
+                onChange={(e) => {
+                  if (e.target.value >= moment().format("YYYY-MM-DD")) {
+                    setDate(e.target.value);
+                    navigate(`/movie/${params.id}?date=${e.target.value}`);
+                  }
                 }}
               />
             </div>

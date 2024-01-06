@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   Form,
@@ -26,16 +26,21 @@ const ShowForm = ({
   allMovies,
   theatres,
 }) => {
-
   const dispatch = useDispatch();
+
+  const [date, setDate] = useState({});
+
+  const [time, setTime] = useState(moment().format("HH:mm"));
+
   const handleAddShow = async (payload) => {
     dispatch(ShowLoading);
+
     let dateObj = moment(payload.date);
     const formattedDate = dateObj.format("YYYY-MM-DD");
 
     try {
       payload = { ...payload, date: formattedDate };
-      console.log(payload, formattedDate);
+
       const selectedMovie = allMovies.find(
         (movie) => movie.name === movieIdRef.current.value
       );
@@ -107,10 +112,19 @@ const ShowForm = ({
               },
             ]}
           >
-            <DatePicker
+            {/* <DatePicker
               disabledDate={(current) =>
                 current && current < moment().startOf("day")
               }
+            /> */}
+            <input
+              type="date"
+              className="border rounded-lg p-1"
+              min={moment().format("YYYY-MM-DD")}
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
             />
           </Form.Item>
 
@@ -124,8 +138,14 @@ const ShowForm = ({
               },
             ]}
           >
-            <TimePicker format={"HH:mm"} />
-            {/* <Input placeholder="Time" type="time" className="w-[30%]" /> */}
+            <TimePicker
+              format="HH:mm"
+              onChange={(e) => {
+                setTime(moment(e?.$d).format("HH:mm"));
+              }}
+              min={moment().format("HH:MM")}
+              value={time}
+            />
           </Form.Item>
 
           <Form.Item
@@ -207,9 +227,11 @@ const ShowForm = ({
               {theatres.length !== 0 &&
                 theatres.map(({ name, _id, isBlocked }) => {
                   return (
-                    !isBlocked && <option key={_id} value={name}>
-                      {name}
-                    </option>
+                    !isBlocked && (
+                      <option key={_id} value={name}>
+                        {name}
+                      </option>
+                    )
                   );
                 })}
             </select>
