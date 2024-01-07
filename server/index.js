@@ -17,11 +17,13 @@ const showRoute = require("./routes/showsRoute");
 const bookingRoute = require("./routes/bookingRoutes");
 
 app.use(express.json());
-app.use(cors({
-  origin: ['https://book-my-show-project-frontend.vercel.app'],
-  methods: ["POST" , "GET"],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: ["https://book-my-show-project-frontend.vercel.app"],
+    methods: ["POST", "GET" , "PUT" , "DELETE"],
+    credentials: true,
+  })
+);
 
 app.use("/api/user", userRoute);
 app.use("/api/theatre", theatreRoute);
@@ -39,4 +41,3 @@ if (process.env.NODE_ENV === "production") {
 app.listen(3001, () => {
   console.log("server live on 3001 port");
 });
-

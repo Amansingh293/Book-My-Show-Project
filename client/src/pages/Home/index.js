@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { getAllMovies } from "../../services/apicalls/movie";
-import { Card, message } from "antd";
+import { Button, Card, message } from "antd";
 import { HideLoading, ShowLoading } from "../../redux/loadersSlice";
 import Meta from "antd/es/card/Meta";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 const Home = () => {
-
   const navigate = useNavigate();
 
   const [movies, setMovies] = useState([]);
 
+  const [searchText, setSearchText] = useState("");
+
+  const [filterMovies, setFilterMovies] = useState({});
+
   const dispatch = useDispatch();
-  
+
   const getMovies = async () => {
     dispatch(ShowLoading());
     try {
@@ -31,18 +34,48 @@ const Home = () => {
     dispatch(HideLoading());
   };
 
+  const handleFiltermovies = () => {
+    const filtered = movies.filter(
+      (movie) => movie.name.toLowerCase() === searchText.toLowerCase()
+    );
+    setFilterMovies(filtered);
+    console.log(filtered);
+  };
+  console.log(searchText);
+  console.log(movies);
   useEffect(() => {
     getMovies();
   }, []);
 
   return (
     <>
-      <div className="pt-8 flex justify-center items-center">
-        <div className="p-2 flex justify-center md:justify-start items-start gap-5 flex-wrap">
+      <div className="pt-8 flex flex-col justify-evenly items-center gap-10">
+        <div className="flex h-10 w-full justify-center md:justify-end p-2 md:p-4 gap-10 items-center">
+          <input
+            type="text"
+            className="border border-gray-400 rounded-lg w-[80%] md:w-[40%] h-full p-4"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
+        <div className="p-2 flex justify-center md:justify-evenly items-start gap-5 flex-wrap">
           {movies.length !== 0 &&
-            movies.map((movie) => {
-              const { name, description, duration, poster, language, genre , _id } =
-                movie;
+            (searchText !== ""
+              ? movies.filter(
+                  (movie) =>
+                    movie.name.toLowerCase() === searchText.toLowerCase()
+                )
+              : movies
+            ).map((movie) => {
+              const {
+                name,
+                description,
+                duration,
+                poster,
+                language,
+                genre,
+                _id,
+              } = movie;
               return (
                 <Card
                   key={poster}
