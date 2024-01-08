@@ -60,7 +60,7 @@ const ProtectedRoutes = ({ children }) => {
         navigate("/login")
       ) : (
         <>
-          <div className="flex items-center justify-between gap-8 h-[10vh] w-full bg-[#474b48] text-gray-200">
+          <div className="flex items-center justify-between gap-8 h-[10vh] w-[100%] bg-[#474b48] text-gray-200">
             <Link to="/" className="ml-[2%] text-[18px] md:text-[25px] font-medium">
               BOOK MY SHOW {user?.isAdmin ? "(Admin)" : ""}
             </Link>

@@ -90,15 +90,15 @@ const BookShow = () => {
     const rows = Math.ceil(totalSeats / columns); // 10
 
     return (
-      <div className="overflow-auto">
+      <div className="flex flex-col overflow-auto">
         <div className="line"></div>
-        <p className="screen">Screen This Side</p>
+        <p className="screen overflow-auto">Screen This Side</p>
         <hr />
-        <div className="seatsContainer">
+        <div className="seatsContainer overflow-auto">
           <hr />
           {Array.from(Array(rows).keys()).map((seat, index) => {
             return (
-              <div className="flex gap-1 justify-center">
+              <div className="flex gap-1 justify-center ">
                 {Array.from(Array(columns).keys()).map((column, index) => {
                   const seatNumber = seat * columns + column + 1;
                   let seatClass = "seats";
@@ -145,15 +145,16 @@ const BookShow = () => {
     <>
       {show && (
         <>
-          <div className="flex flex-row justify-evenly items-center h-[8em] w-[47rem] md:w-[98vw] p-6 gap-8 border m-4 box-border rounded-lg">
+          <div className="flex flex-col md:flex-row justify-evenly items-center h-fit md:h-[8em] w-full md:w-[98.1%] p-6 gap-8 border md:m-4 rounded-lg">
+
             <div className="flex flex-col justify-evenly items-start w-full gap-5">
               <h1 className="font-medium text-xl"> {show?.theatre?.name}</h1>
               <h1 className="font- text-lg"> {show?.theatre?.address}</h1>
             </div>
-            <div className="flex justify-center items-center font-semibold text-[30px] w-full">
+            <div className="flex justify-start md:justify-center items-center font-semibold text-[30px] w-full">
               {show?.movie?.name}({show?.movie?.language})
             </div>
-            <div className="flex flex-col justify-evenly items-end gap-7 w-full font-semibold text-lg">
+            <div className="flex flex-col justify-evenly items-start md:items-end gap-7 w-full font-semibold text-lg">
               <span>
                 {moment(show.date).format("DD-MM-YYYY")} __{" "}
                 {moment(show.time).format("HH:MM")}{" "}
@@ -175,9 +176,10 @@ const BookShow = () => {
                 </Button>
               </StripeCheckout>
             </div>
+
           </div>
 
-          <div className="flex justify-center items-center w-[50rem] md:w-full h-fit  md:h-fit  p-8 mt-[8rem] md:mt-0 ">
+          <div className="flex justify-center items-center md:w-full h-fit  md:h-fit  p-8 mt-[8rem] md:mt-0 overflow-auto ">
             {getSeats()}
           </div>
 
