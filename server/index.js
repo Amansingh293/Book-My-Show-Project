@@ -19,7 +19,10 @@ const bookingRoute = require("./routes/bookingRoutes");
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://book-my-show-project-frontend.vercel.app"],
+    origin: [
+      "https://book-my-show-project-frontend.vercel.app",
+      "http://localhost:3000",
+    ],
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true,
   })

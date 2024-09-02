@@ -2,7 +2,13 @@ import { instance } from ".";
 
 export const addShow = async (payload) => {
   try {
-    const response = await instance.post("/api/show/add-show", payload);
+    const response = await instance.post("/api/show/add-show", payload, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(
+          "bookmyshowprojecttoken"
+        )}`,
+      },
+    });
     return response.data;
   } catch (error) {
     return error;
@@ -13,7 +19,13 @@ export const getShowsByMovieId = async (payload) => {
   try {
     const response = await instance.post(
       `/api/show/get-shows-by-movie-id-date`,
-      payload
+      payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "bookmyshowprojecttoken"
+          )}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -23,7 +35,13 @@ export const getShowsByMovieId = async (payload) => {
 export const getShowById = async (payload) => {
   try {
     const response = await instance.get(
-      `/api/show/get-show-by-id?showId=${payload}`
+      `/api/show/get-show-by-id?showId=${payload}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "bookmyshowprojecttoken"
+          )}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {

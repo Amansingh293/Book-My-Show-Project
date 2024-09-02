@@ -1,8 +1,8 @@
 const router = require("express").Router();
 
-const Movie = require('../model/moviesModel');
+const Movie = require("../model/moviesModel");
 
-const authMiddleware = require('../middleware/authMiddleware');
+const authMiddleware = require("../middleware/authMiddleware");
 const { request } = require("express");
 
 router.post("/add-movie", authMiddleware, async (request, response) => {
@@ -14,7 +14,7 @@ router.post("/add-movie", authMiddleware, async (request, response) => {
     //     .status(200)
     //     .send({ success: true , message: "Theatre Already Present !!" });
     // }
-    request.body.duration = Math.round(request.body.duration/60);
+    request.body.duration = Math.round(request.body.duration / 60);
 
     const movie = new Movie(request.body);
 
@@ -33,10 +33,9 @@ router.post("/add-movie", authMiddleware, async (request, response) => {
 
 router.post("/edit-movie", authMiddleware, async (request, response) => {
   try {
-  
     request.body.duration = Math.round(request.body.duration);
 
-    const movie = await Movie.findByIdAndUpdate(request.body._id , request.body);
+    const movie = await Movie.findByIdAndUpdate(request.body._id, request.body);
 
     response
       .status(200)
@@ -66,10 +65,10 @@ router.get("/get-all-movies", authMiddleware, async (_, response) => {
   }
 });
 
-router.get("/get-movie-by-id", authMiddleware, async (request , response) => {
+router.get("/get-movie-by-id", authMiddleware, async (request, response) => {
   try {
-    const movie = await Movie.findById({_id : request.query.movieId});
-  
+    const movie = await Movie.findById({ _id: request.query.movieId });
+
     response.status(200).send({
       success: true,
       message: "Movie Retrieved",
@@ -83,7 +82,7 @@ router.get("/get-movie-by-id", authMiddleware, async (request , response) => {
   }
 });
 
-router.delete("/delete-movie", authMiddleware, async (request , response) => {
+router.delete("/delete-movie", authMiddleware, async (request, response) => {
   try {
     await Movie.findByIdAndDelete(request.query.movie_id);
 
@@ -94,6 +93,31 @@ router.delete("/delete-movie", authMiddleware, async (request , response) => {
     });
   } catch (err) {
     console.log(err.message);
+    response
+      .status(500)
+      .send({ success: true, message: "Internal Server Error" });
+  }
+});
+
+router.get("/get-by-search", authMiddleware, async (request, response) => {
+  try {
+    const searchedMovies = await Movie.find({
+      name: { $regex: request.query.search, $options: 'i' }, 
+    });
+
+    if (!searchedMovies) {
+      return response.status(404).send({
+        success: false,
+        message: "No movie found!!",
+      });
+    }
+    return response.status(200).send({
+      success: true,
+      message: "Searched Movies Retrieved",
+      data: searchedMovies,
+    });
+  } catch (error) {
+    console.log(error.message);
     response
       .status(500)
       .send({ success: true, message: "Internal Server Error" });

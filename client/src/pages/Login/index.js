@@ -18,7 +18,7 @@ const Login = () => {
       console.log(values)
       if (response.success) {
         const token = response.data;
-        localStorage.setItem("token", token);
+        localStorage.setItem("bookmyshowprojecttoken", token);
         message.success(response.message);
         navigate("/");
       } else {

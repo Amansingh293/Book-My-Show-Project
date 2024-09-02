@@ -23,7 +23,7 @@ const ProtectedRoutes = ({ children }) => {
         dispatch(HideLoading());
       } else {
         dispatch(SetUser(null));
-        localStorage.removeItem("token");
+        localStorage.removeItem("bookmyshowprojecttoken");
         dispatch(HideLoading());
         message.error(response.message);
       }
@@ -34,7 +34,7 @@ const ProtectedRoutes = ({ children }) => {
   };
 
   const logoutHandle = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("bookmyshowprojecttoken");
     navigate("/login");
   };
 
@@ -47,7 +47,7 @@ const ProtectedRoutes = ({ children }) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("bookmyshowprojecttoken")) {
       getUser();
     } else {
       navigate("/login");
