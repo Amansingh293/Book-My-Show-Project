@@ -15,7 +15,7 @@ export const loginUser = async (payload) => {
     const response = await instance.post("/api/user/login", payload);
     return response.data;
   } catch (err) {
-    console.log(err.message);
+    return err.response.data;
   }
 };
 
@@ -30,6 +30,6 @@ export const getCurrentuser = async () => {
     });
     return response.data;
   } catch (err) {
-    console.log(err.message);
+    return err.response.data;
   }
 };
