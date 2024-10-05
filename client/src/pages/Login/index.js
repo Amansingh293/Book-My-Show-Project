@@ -22,7 +22,7 @@ const Login = () => {
         message.success(response.message);
         navigate("/");
       } else {
-        // message.error(response.message);
+        message.error(response.message);
       }
     } catch (err) {
     console.log(err.message);
